@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RGB Light Status</title>
+    <script>
+      setInterval(function() {
+        var request = new XMLHttpRequest();
+        request.open('GET', 'https://duluth.chandlerswift.com/5/lights', true);
+
+        request.onload = function() {
+          if (this.status >= 200 && this.status < 400) {
+            var data = JSON.parse(this.response);
+            document.body.style.backgroundColor = "rgb(" + data[1].status + "," + data[2].status + "," + data[3].status + ")";
+            
+          } else {
+            console.log("There was an error retrieving the JSON: " + this.status);
+          }
+        };
+
+        request.onerror = function() {
+          console.log("There was an error making the request");
+        };
+
+        request.send();
+        
+      }, 1000);
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
+
